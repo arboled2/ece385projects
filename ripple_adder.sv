@@ -40,7 +40,7 @@ module four_bit_ra(
 	
 endmodule
 
-module full_adder(
+/*module full_adder(
 						input x,
 						input y,
 						input cin,
@@ -51,4 +51,4 @@ module full_adder(
    assign s 	= x ^ y ^ cin;
 	assign cout = (x&y) | (y&cin) | (cin&x);
 						
-endmodule
+endmodule*/
