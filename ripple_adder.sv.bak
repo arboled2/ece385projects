@@ -18,6 +18,7 @@ module ripple_adder
 	  four_bit_ra FRA2(.x(A[11:8]), .y(B[11:8]), .cin(C1), .s(Sum[11:8]), .cout(C2));
 	  four_bit_ra FRA3(.x(A[15:12]), .y(B[15:12]), .cin(C2), .s(Sum[15:12]), .cout(CO));
 	  
+
      
 endmodule
 
