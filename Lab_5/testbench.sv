@@ -25,16 +25,20 @@ module testbench();
 		Reset = 0;
 		ClearA_LoadB = 1;
 		Run = 1;
-		//SW = 8'h8C;
-		//SW = 8'hAA;
-		SW = 8'h02;
 	
+		//SW = 8'h02;
+		//SW = 8'h07;
+		//SW = 8'hC5;
+		SW = 8'hF9;
 	
 		#2 Reset = 1;
 			ClearA_LoadB = 0;
 	
 		#20 ClearA_LoadB = 1;
-			SW = 8'h04;
+			//SW = 8'h04;
+			//SW = 8'hC5;
+			//SW = 8'h07;
+			SW = 8'hC5;
 			Run = 0;
 		
 		#22 Run = 1;

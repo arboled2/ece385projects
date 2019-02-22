@@ -106,7 +106,7 @@ module GATE_MUX (input logic [15:0] IN0, IN1, IN2, IN3,
 				begin
 					case (SelectBit)
 						4'b1000 :
-							OUT = IN0
+							OUT = IN0;
 						4'b0100 :
 							OUT = IN1;
 						4'b0010 :

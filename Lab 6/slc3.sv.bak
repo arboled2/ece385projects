@@ -16,11 +16,8 @@
 //    spring 2018 Distribution
 //
 //------------------------------------------------------------------------------
-//parameterized mux *4 of them
-//register for PC, MAR, MDR, IR
-//
 module slc3(
-    input logic [15:0] IN,
+    input logic [15:0] S,
     input logic Clk, Reset, Run, Continue,
     output logic [11:0] LED,
     output logic [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7,
@@ -75,40 +72,9 @@ HexDriver hex_driver4 (PC[3:0], HEX4);
 assign ADDR = { 4'b00, MAR }; //Note, our external SRAM chip is 1Mx16, but address space is only 64Kx16
 assign MIO_EN = ~OE;
 
-
-//********************************************************************
-//PC register?
-logic [15:0] pc_mux_out;
-logic [15:0] bus;
-logic [15:0] adder_out;
-logic [15:0] GateMuxValue;
-
-PC_MUX pcmux(.IN0(PC+1), .IN1(GateMuxValue), .IN2(adder_out), .SelectBit(PCMUX), .OUT(pc_mux_out));
-reg_16 PC_REG(.*, .LoadEn(LD_PC), .IN(pc_mux_out), .OUT(PC));
-
-//IR Register
-reg_16 IR_REG(.*, .LoadEn(LD_IR), .IN(GateMuxValue), .OUT(IR));
-
-//MDR Register
-logic [15:0] mdr_mux_out;
-MDR_MUX mdrmux(.IN0(GateMuxValue), .IN1(MDR_In), .SelectBit(MIO_EN), .OUT(mdr_mux_out));
-reg_16 MDR_REG(.*, .LoadEn(LD_MDR), .IN(mdr_mux_out), .OUT(MDR));
-
-
-//MAR Register
-reg_16 MAR_REG(.*, .LoadEn(LD_MAR), .IN(GateMuxValue), .OUT(MAR));
-
-logic [3:0] GateMuxSelect;
-
-assign GateMuxSelect = {GatePC, GateMDR, GateALU, GateMARMUX};
-
-GATE_MUX GayteMux(.IN0(PC), .IN1(MDR), .IN2(0), .IN3(MAR), .SelectBit(GateMuxSelect), .OUT(GateMuxValue));
-
-//********************************************************************
-
 // You need to make your own datapath module and connect everything to the datapath
 // Be careful about whether Reset is active high or low
-//datapath d0 (.*);
+datapath d0 (/* Please fill in the signals.... */);
 
 // Our SRAM and I/O controller
 Mem2IO memory_subsystem(
@@ -130,16 +96,4 @@ ISDU state_controller(
     .Mem_CE(CE), .Mem_UB(UB), .Mem_LB(LB), .Mem_OE(OE), .Mem_WE(WE)
 );
 
-endmodule
-
-module reg_16 (input logic Clk, LoadEn, Reset,
-					input logic [15:0] IN,
-					output logic [15:0] OUT);
-	always_ff @ (posedge Clk)
-	begin
-		if (~Reset)
-			OUT <= 16'h0;
-		else if(LoadEn)
-			OUT <= IN;
-	end				
 endmodule
